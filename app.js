@@ -1,35 +1,26 @@
-document.addEventListener("DOMContentLoaded", function () {
+const startCountdown = () => {
+    let m = Math.floor(countdownSeconds / 60),
+        s = countdownSeconds - (m * 60);
 
-    var counterMin = document.getElementsByClassName('counter-min')[0].innerHTML = 0;
-    var counterSek = document.getElementsByClassName('counter-sek')[0].innerHTML = 10;
+    counterMin.innerHTML = m;
+    counterSec.innerHTML = formatSeconds(s);
+    countdownSeconds--;
 
-    var myTimer = setInterval(startCountDown, 1000);
-
-    function startCountDown() {
-        var m = document.getElementsByClassName('counter-min')[0].innerHTML;
-        var s = checkSek(((document.getElementsByClassName('counter-sek')[0].innerHTML) -1));
-
-        if (s == 59) {
-            m = m - 1
-        }
-
-        document.getElementsByClassName('counter-min')[0].innerHTML = m;
-        document.getElementsByClassName('counter-sek')[0].innerHTML = s;
-
-        if (m == 0 && s == 0) {
-            clearInterval(myTimer);
-        }
+    if (countdownSeconds === 0) {
+        clearInterval(timer);
     }
+};
 
-    function checkSek(sek) {
-        if (sek < 10 && sek >= 0) {
-            sek = "0" + sek;
-        }
-        else if (sek < 0) {
-            sek = "59"
-        }
-        return sek;
-    }
+const formatSeconds = sec => {
+    return sec < 10 ? `0${sec}` : sec;
+};
 
+let countdownSeconds = 1600,
+    container = document.getElementsByClassName('container')[0],
+    counterMin = document.getElementsByClassName('counter-min')[0],
+    counterSec = document.getElementsByClassName('counter-sec')[0],
+    timer = setInterval(startCountdown, 1000);
 
+document.addEventListener('DOMContentLoaded', () => {
+    container.style.setProperty('--animation-time', `${countdownSeconds}s`, '');
 });
